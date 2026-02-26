@@ -10,6 +10,7 @@ import { PhrasalQuizMeaning, PhrasalQuizParticle } from '../components/phrasal-v
 import { PhrasalResult } from '../components/phrasal-verbs/PhrasalResult'
 import { PhrasalSetup } from '../components/phrasal-verbs/PhrasalSetup'
 import type { QuizMode } from '../components/phrasal-verbs/PhrasalSetup'
+import { useQuizKeyboard } from '../hooks/useQuizKeyboard'
 
 export const Route = createFileRoute('/phrasal-verbs')({
   component: PhrasalVerbsPage,
@@ -110,6 +111,15 @@ function PhrasalVerbsPage() {
     setPhase('directory')
   }
 
+  const { pressedIndex } = useQuizKeyboard({
+    optionCount: currentQ?.options.length ?? 4,
+    onSelect: handleAnswer,
+    onNext: handleNext,
+    isAnswered: selectedAnswer !== null,
+    isVisible: visible,
+    enabled: phase === 'playing',
+  })
+
   return (
     <div className="max-w-[1100px] mx-auto">
       <div className="mb-4">
@@ -208,6 +218,7 @@ function PhrasalVerbsPage() {
                 correctIndex={currentQ.correctIndex}
                 selectedAnswer={selectedAnswer}
                 onAnswer={handleAnswer}
+                pressedIndex={pressedIndex}
               />
             )}
             {quizMode === 'particle' && 'baseVerb' in currentQ && (
@@ -219,6 +230,7 @@ function PhrasalVerbsPage() {
                 selectedAnswer={selectedAnswer}
                 onAnswer={handleAnswer}
                 full={(currentQ as ParticleQuestion).full}
+                pressedIndex={pressedIndex}
               />
             )}
           </div>
@@ -234,6 +246,9 @@ function PhrasalVerbsPage() {
               </button>
             </div>
           )}
+          <p className="text-center text-slate-600 text-xs mt-4">
+            1-4 {'\u2014'} вибрати відповідь {'\u00B7'} Enter {'\u2014'} далі
+          </p>
         </>
       )}
 

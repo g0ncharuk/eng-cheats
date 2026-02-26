@@ -5,6 +5,7 @@ import type { Preposition, PrepCategory, PrepQuestion } from '../data/prepositio
 import { PrepCheatsheet } from '../components/prepositions/PrepCheatsheet'
 import { PrepQuiz } from '../components/prepositions/PrepQuiz'
 import { PrepResult } from '../components/prepositions/PrepResult'
+import { useQuizKeyboard } from '../hooks/useQuizKeyboard'
 
 export const Route = createFileRoute('/prepositions')({
   component: PrepositionsPage,
@@ -75,6 +76,17 @@ function PrepositionsPage() {
   function handleRetry() {
     setPhase('cheatsheet')
   }
+
+  const prepOrder: Preposition[] = ['in', 'on', 'at']
+
+  const { pressedIndex } = useQuizKeyboard({
+    optionCount: 3,
+    onSelect: (index) => handleAnswer(prepOrder[index]),
+    onNext: handleNext,
+    isAnswered: selected !== null,
+    isVisible: visible,
+    enabled: phase === 'playing',
+  })
 
   return (
     <div className="max-w-[1100px] mx-auto">
@@ -149,6 +161,7 @@ function PrepositionsPage() {
               question={questions[currentIndex]}
               selected={selected}
               onAnswer={handleAnswer}
+              pressedIndex={pressedIndex}
             />
           </div>
 
@@ -163,6 +176,9 @@ function PrepositionsPage() {
               </button>
             </div>
           )}
+          <p className="text-center text-slate-600 text-xs mt-4">
+            1 {'\u2014'} IN {'\u00B7'} 2 {'\u2014'} ON {'\u00B7'} 3 {'\u2014'} AT {'\u00B7'} Enter {'\u2014'} далі
+          </p>
         </>
       )}
 

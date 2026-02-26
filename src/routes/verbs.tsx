@@ -7,6 +7,7 @@ import { VerbsProgress } from '../components/verbs/VerbsProgress'
 import { FlashCard } from '../components/verbs/FlashCard'
 import { VerbTest } from '../components/verbs/VerbTest'
 import { VerbsResult } from '../components/verbs/VerbsResult'
+import { useFlashcardKeyboard } from '../hooks/useFlashcardKeyboard'
 
 export const Route = createFileRoute('/verbs')({
   component: VerbsPage,
@@ -128,6 +129,20 @@ function VerbsPage() {
     setPhase('setup')
   }
 
+  useFlashcardKeyboard({
+    mode,
+    onFlip: handleFlip,
+    onKnow: handleKnow,
+    onDontKnow: handleDontKnow,
+    flipped,
+    onCheck: handleCheck,
+    onNext: goNext,
+    checked,
+    canCheck: v2Input.trim() !== '' && v3Input.trim() !== '',
+    isVisible: visible,
+    enabled: phase === 'playing',
+  })
+
   const current = verbs[currentIndex]
   const totalCorrect = mode === 'learn' ? knownCount : correctCount
 
@@ -210,6 +225,12 @@ function VerbsPage() {
               </>
             )}
           </div>
+          <p className="text-center text-slate-600 text-xs mt-4">
+            {mode === 'learn'
+              ? <>Space {'\u2014'} перевернути {'\u00B7'} {'\u2192'} Знаю {'\u00B7'} {'\u2190'} Не знаю</>
+              : <>Tab {'\u2014'} між полями {'\u00B7'} Enter {'\u2014'} перевірити/далі</>
+            }
+          </p>
         </>
       )}
 

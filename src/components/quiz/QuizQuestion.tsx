@@ -1,10 +1,11 @@
 import type { QuizQuestion as QuizQuestionType } from '../../data/quiz'
 
-function getButtonClass(index: number, selectedAnswer: number | null, correctIndex: number) {
+function getButtonClass(index: number, selectedAnswer: number | null, correctIndex: number, pressedIndex?: number | null) {
   const base = 'w-full px-5 py-3.5 rounded-lg border text-base transition-all select-none text-left'
 
   if (selectedAnswer === null) {
-    return `${base} bg-slate-800 text-slate-200 border-slate-700 hover:border-sky-400/50 hover:text-sky-400 cursor-pointer`
+    const pressed = pressedIndex === index ? ' ring-2 ring-sky-400/50' : ''
+    return `${base} bg-slate-800 text-slate-200 border-slate-700 hover:border-sky-400/50 hover:text-sky-400 cursor-pointer${pressed}`
   }
 
   if (index === correctIndex) {
@@ -33,10 +34,11 @@ function renderSentence(sentence: string) {
   )
 }
 
-export function QuizQuestion({ question, selectedAnswer, onAnswer }: {
+export function QuizQuestion({ question, selectedAnswer, onAnswer, pressedIndex }: {
   question: QuizQuestionType
   selectedAnswer: number | null
   onAnswer: (index: number) => void
+  pressedIndex?: number | null
 }) {
   return (
     <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
@@ -49,7 +51,7 @@ export function QuizQuestion({ question, selectedAnswer, onAnswer }: {
           <button
             key={i}
             onClick={() => selectedAnswer === null && onAnswer(i)}
-            className={getButtonClass(i, selectedAnswer, question.correctIndex)}
+            className={getButtonClass(i, selectedAnswer, question.correctIndex, pressedIndex)}
           >
             {option}
           </button>

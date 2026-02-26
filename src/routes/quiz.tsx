@@ -6,6 +6,7 @@ import { QuizSetup } from '../components/quiz/QuizSetup'
 import { QuizProgress } from '../components/quiz/QuizProgress'
 import { QuizQuestion } from '../components/quiz/QuizQuestion'
 import { QuizResult } from '../components/quiz/QuizResult'
+import { useQuizKeyboard } from '../hooks/useQuizKeyboard'
 
 export const Route = createFileRoute('/quiz')({
   component: QuizPage,
@@ -83,6 +84,15 @@ function QuizPage() {
     setPhase('setup')
   }
 
+  const { pressedIndex } = useQuizKeyboard({
+    optionCount: questions[currentIndex]?.options.length ?? 4,
+    onSelect: handleAnswer,
+    onNext: handleNext,
+    isAnswered: selectedAnswer !== null,
+    isVisible: visible,
+    enabled: phase === 'playing',
+  })
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-4">
@@ -116,6 +126,7 @@ function QuizPage() {
               question={questions[currentIndex]}
               selectedAnswer={selectedAnswer}
               onAnswer={handleAnswer}
+              pressedIndex={pressedIndex}
             />
           </div>
           {selectedAnswer !== null && (
@@ -129,6 +140,9 @@ function QuizPage() {
               </button>
             </div>
           )}
+          <p className="text-center text-slate-600 text-xs mt-4">
+            1-4 {'\u2014'} вибрати відповідь {'\u00B7'} Enter {'\u2014'} далі
+          </p>
         </>
       )}
 

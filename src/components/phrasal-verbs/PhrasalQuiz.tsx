@@ -1,8 +1,9 @@
-function getButtonClass(index: number, selectedAnswer: number | null, correctIndex: number) {
+function getButtonClass(index: number, selectedAnswer: number | null, correctIndex: number, pressedIndex?: number | null) {
   const base = 'w-full px-5 py-3.5 rounded-lg border text-base transition-all select-none text-left'
 
   if (selectedAnswer === null) {
-    return `${base} bg-slate-800 text-slate-200 border-slate-700 hover:border-sky-400/50 hover:text-sky-400 cursor-pointer`
+    const pressed = pressedIndex === index ? ' ring-2 ring-sky-400/50' : ''
+    return `${base} bg-slate-800 text-slate-200 border-slate-700 hover:border-sky-400/50 hover:text-sky-400 cursor-pointer${pressed}`
   }
 
   if (index === correctIndex) {
@@ -16,12 +17,13 @@ function getButtonClass(index: number, selectedAnswer: number | null, correctInd
   return `${base} opacity-50 cursor-default border-slate-700 text-slate-400`
 }
 
-export function PhrasalQuizMeaning({ phrasalVerb, options, correctIndex, selectedAnswer, onAnswer }: {
+export function PhrasalQuizMeaning({ phrasalVerb, options, correctIndex, selectedAnswer, onAnswer, pressedIndex }: {
   phrasalVerb: string
   options: string[]
   correctIndex: number
   selectedAnswer: number | null
   onAnswer: (index: number) => void
+  pressedIndex?: number | null
 }) {
   return (
     <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
@@ -33,7 +35,7 @@ export function PhrasalQuizMeaning({ phrasalVerb, options, correctIndex, selecte
           <button
             key={i}
             onClick={() => selectedAnswer === null && onAnswer(i)}
-            className={getButtonClass(i, selectedAnswer, correctIndex)}
+            className={getButtonClass(i, selectedAnswer, correctIndex, pressedIndex)}
           >
             {option}
           </button>
@@ -43,7 +45,7 @@ export function PhrasalQuizMeaning({ phrasalVerb, options, correctIndex, selecte
   )
 }
 
-export function PhrasalQuizParticle({ baseVerb, meaning, options, correctIndex, selectedAnswer, onAnswer, full }: {
+export function PhrasalQuizParticle({ baseVerb, meaning, options, correctIndex, selectedAnswer, onAnswer, full, pressedIndex }: {
   baseVerb: string
   meaning: string
   options: string[]
@@ -51,6 +53,7 @@ export function PhrasalQuizParticle({ baseVerb, meaning, options, correctIndex, 
   selectedAnswer: number | null
   onAnswer: (index: number) => void
   full: string
+  pressedIndex?: number | null
 }) {
   return (
     <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
@@ -65,7 +68,7 @@ export function PhrasalQuizParticle({ baseVerb, meaning, options, correctIndex, 
           <button
             key={i}
             onClick={() => selectedAnswer === null && onAnswer(i)}
-            className={getButtonClass(i, selectedAnswer, correctIndex)}
+            className={getButtonClass(i, selectedAnswer, correctIndex, pressedIndex)}
           >
             {option}
           </button>

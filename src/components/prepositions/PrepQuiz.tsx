@@ -20,12 +20,14 @@ const prepButtonColors: Record<Preposition, { base: string; correct: string; wro
 
 const preps: Preposition[] = ['in', 'on', 'at']
 
-function getButtonClass(prep: Preposition, selected: Preposition | null, correct: Preposition) {
+function getButtonClass(prep: Preposition, selected: Preposition | null, correct: Preposition, pressedIndex?: number | null) {
   const base = 'flex-1 px-6 py-4 rounded-lg border text-xl font-bold transition-all select-none uppercase'
   const colors = prepButtonColors[prep]
+  const prepIdx = preps.indexOf(prep)
 
   if (selected === null) {
-    return `${base} cursor-pointer ${colors.base}`
+    const pressed = pressedIndex === prepIdx ? ' ring-2 ring-sky-400/50' : ''
+    return `${base} cursor-pointer ${colors.base}${pressed}`
   }
 
   if (prep === correct) {
@@ -51,10 +53,11 @@ function renderSentence(sentence: string) {
   )
 }
 
-export function PrepQuiz({ question, selected, onAnswer }: {
+export function PrepQuiz({ question, selected, onAnswer, pressedIndex }: {
   question: PrepQuestion
   selected: Preposition | null
   onAnswer: (prep: Preposition) => void
+  pressedIndex?: number | null
 }) {
   return (
     <div className="bg-slate-800 border border-slate-700 rounded-xl p-6">
@@ -67,7 +70,7 @@ export function PrepQuiz({ question, selected, onAnswer }: {
           <button
             key={prep}
             onClick={() => selected === null && onAnswer(prep)}
-            className={getButtonClass(prep, selected, question.correct)}
+            className={getButtonClass(prep, selected, question.correct, pressedIndex)}
           >
             {prep}
           </button>
