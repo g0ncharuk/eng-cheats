@@ -41,11 +41,14 @@ export interface Comparison {
   tip: string
 }
 
+export type VerbDifficulty = 'basic' | 'intermediate' | 'advanced'
+
 export interface IrregularVerb {
   v1: string
   v2: string
   v3: string
   ua: string
+  difficulty: VerbDifficulty
 }
 
 export interface Tip {

@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerbsRouteImport } from './routes/verbs'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as PrepositionsRouteImport } from './routes/prepositions'
+import { Route as PhrasalVerbsRouteImport } from './routes/phrasal-verbs'
 import { Route as IndexRouteImport } from './routes/index'
 
+const VerbsRoute = VerbsRouteImport.update({
+  id: '/verbs',
+  path: '/verbs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrepositionsRoute = PrepositionsRouteImport.update({
+  id: '/prepositions',
+  path: '/prepositions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhrasalVerbsRoute = PhrasalVerbsRouteImport.update({
+  id: '/phrasal-verbs',
+  path: '/phrasal-verbs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,72 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/phrasal-verbs': typeof PhrasalVerbsRoute
+  '/prepositions': typeof PrepositionsRoute
+  '/quiz': typeof QuizRoute
+  '/verbs': typeof VerbsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/phrasal-verbs': typeof PhrasalVerbsRoute
+  '/prepositions': typeof PrepositionsRoute
+  '/quiz': typeof QuizRoute
+  '/verbs': typeof VerbsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/phrasal-verbs': typeof PhrasalVerbsRoute
+  '/prepositions': typeof PrepositionsRoute
+  '/quiz': typeof QuizRoute
+  '/verbs': typeof VerbsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/phrasal-verbs' | '/prepositions' | '/quiz' | '/verbs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/phrasal-verbs' | '/prepositions' | '/quiz' | '/verbs'
+  id: '__root__' | '/' | '/phrasal-verbs' | '/prepositions' | '/quiz' | '/verbs'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PhrasalVerbsRoute: typeof PhrasalVerbsRoute
+  PrepositionsRoute: typeof PrepositionsRoute
+  QuizRoute: typeof QuizRoute
+  VerbsRoute: typeof VerbsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verbs': {
+      id: '/verbs'
+      path: '/verbs'
+      fullPath: '/verbs'
+      preLoaderRoute: typeof VerbsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prepositions': {
+      id: '/prepositions'
+      path: '/prepositions'
+      fullPath: '/prepositions'
+      preLoaderRoute: typeof PrepositionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/phrasal-verbs': {
+      id: '/phrasal-verbs'
+      path: '/phrasal-verbs'
+      fullPath: '/phrasal-verbs'
+      preLoaderRoute: typeof PhrasalVerbsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +121,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PhrasalVerbsRoute: PhrasalVerbsRoute,
+  PrepositionsRoute: PrepositionsRoute,
+  QuizRoute: QuizRoute,
+  VerbsRoute: VerbsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
