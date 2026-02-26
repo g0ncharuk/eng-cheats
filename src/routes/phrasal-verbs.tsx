@@ -175,6 +175,10 @@ function PhrasalVerbsPage() {
             />
           </div>
 
+          <p className="text-center text-slate-500 text-xs mb-3">
+            {'\u2B50'} {'\u2014'} часто вживається
+          </p>
+
           {filteredVerbs.length > 0 ? (
             <PhrasalDirectory verbs={filteredVerbs} />
           ) : (

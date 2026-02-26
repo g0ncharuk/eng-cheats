@@ -37,6 +37,7 @@ export function PhrasalQuizMeaning({ phrasalVerb, options, correctIndex, selecte
             onClick={() => selectedAnswer === null && onAnswer(i)}
             className={getButtonClass(i, selectedAnswer, correctIndex, pressedIndex)}
           >
+            <span className="text-slate-600 text-xs font-mono mr-2">{i + 1}</span>
             {option}
           </button>
         ))}
@@ -70,6 +71,7 @@ export function PhrasalQuizParticle({ baseVerb, meaning, options, correctIndex, 
             onClick={() => selectedAnswer === null && onAnswer(i)}
             className={getButtonClass(i, selectedAnswer, correctIndex, pressedIndex)}
           >
+            <span className="text-slate-600 text-xs font-mono mr-2">{i + 1}</span>
             {option}
           </button>
         ))}

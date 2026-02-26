@@ -66,12 +66,13 @@ export function PrepQuiz({ question, selected, onAnswer, pressedIndex }: {
       </p>
 
       <div className="flex gap-3 mb-4">
-        {preps.map((prep) => (
+        {preps.map((prep, i) => (
           <button
             key={prep}
             onClick={() => selected === null && onAnswer(prep)}
             className={getButtonClass(prep, selected, question.correct, pressedIndex)}
           >
+            <span className="text-[0.6rem] opacity-40 block font-mono mb-0.5">{i + 1}</span>
             {prep}
           </button>
         ))}
